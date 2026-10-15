@@ -1,0 +1,42 @@
+:root {
+    --offline-bg: rgba(41, 14, 62, 0.1);
+}
+
+.run {
+    display: grid;
+    width: 400px;
+    height: 100px;
+    border: 1px solid var(--accent-border);
+    border-radius: 8px;
+    padding: 16px;
+    /* grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 16px; */
+}
+
+.live {
+    cursor: pointer;
+    background-color: var(--accent-bg);
+    border-color: var(--accent-border);
+}
+
+.live:hover {
+    background-color: var(--accent-hover);
+    border-color: var(--accent-border-hover);
+    transition: all 0.3s ease;
+}
+
+.runner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.offline {
+    background-color: var(--offline-bg);
+}
+
+.selected {
+    background-color: var(--accent);
+    color: white;
+}

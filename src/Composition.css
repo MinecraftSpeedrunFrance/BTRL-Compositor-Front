@@ -1,0 +1,14 @@
+:root {
+    --bg: rgba(0, 0, 0, 0);
+}
+
+main {
+    width: 100%;
+    max-width: 100%;
+    max-height: 100vh;
+    display: grid;
+    grid-template-columns: repeat(var(--grid-columns, 1), minmax(0, 1fr));
+    grid-template-rows: repeat(var(--grid-rows, 1), minmax(0, 1fr));
+    gap: 16px;
+    place-items: center;
+}

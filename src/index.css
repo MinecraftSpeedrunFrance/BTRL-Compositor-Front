@@ -87,7 +87,7 @@ p {
     margin: 0;
 }
 
-button {
+button, a {
     font-family: var(--sans);
     font-size: 18px;
     line-height: 145%;
@@ -98,9 +98,10 @@ button {
     border-radius: 8px;
     padding: 12px 24px;
     cursor: pointer;
+    text-decoration: none;
 }
 
-button:hover {
+button:hover, a:hover {
     background-color: var(--accent-bg);
     border-color: var(--accent-border);
     transition: all 0.3s ease;

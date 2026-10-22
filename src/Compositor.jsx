@@ -4,10 +4,9 @@ import Runner from "./components/Runner"
 import './Compositor.css'
 import { getGridColumns } from "./utils"
 
-//  onSuccess: data => setRunnersData(data), onError: err => setSplitsError(err.message)
 const fetcher = (...args) => fetch(...args).then(res => res.json())
 function Compositor() {
-    const [event, setEvent] = useState(localStorage.getItem('event') || 'none')
+    const [event, setEvent] = useState('none')
     const [maxPovCount, setMaxPovCount] = useState(6)
     const [eventsData, setEventsData] = useState([])
     const [eventsError, setEventsError] = useState(null)
@@ -25,12 +24,22 @@ function Compositor() {
                 return response.json()
             })
             .then(json => {
-                if (isActive) setEventsData(json)
+                if (isActive) {
+                    setEventsData(json)
+                    let cachedEvent = localStorage.getItem('event')
+                    if (json.some(event => event._id === cachedEvent)) {
+                        setEvent(cachedEvent)
+                    }
+                }
             })
             .catch(error => {
                 if (isActive) setEventsError(error.message)
             })
     }, [])
+
+    useEffect(() => {
+        if (event !== 'none') localStorage.setItem('event', event)
+    }, [event])
 
     return <>
         <header>
@@ -66,8 +75,8 @@ function Compositor() {
                         <Runner key={runner.uuid} runner={runner} onClick={() => {
                             if (composition.some(r => r.uuid === runner.uuid)) {
                                 setComposition(composition.filter(r => r.uuid !== runner.uuid))
-                            } else if (runner.live) {
-                                setComposition([...composition, {uuid: runner.uuid, twitch: runner.twitch, nickname: runner.nickname}])
+                            } else if (/*runner.live &&*/maxPovCount > composition.length) {
+                                setComposition([...composition, {uuid: runner.uuid, twitch: runner.twitch, nickname: runner.nickname, items: runner.items}])
                             }
                         }} selected={composition.some(r => r.uuid === runner.uuid)} />
                     ))}
@@ -76,7 +85,7 @@ function Compositor() {
                     <button onClick={postComposition}>Push Composition</button>
                 </div>
             </div>
-            <div className="section">
+            {/* <div className="section">
                 <h1>Current Composition</h1>
                 {runnersData && <div
                     className="runs-list"
@@ -88,7 +97,7 @@ function Compositor() {
                         <Runner key={runner.uuid} runner={runner} onClick={() => {}} selected={true} />
                     ))}
                 </div>}
-            </div>
+            </div> */}
         </main>
     </>
 

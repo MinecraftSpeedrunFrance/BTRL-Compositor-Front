@@ -1,6 +1,6 @@
 .pov-header {
     display: grid;
-    grid-template-columns: auto auto 1fr;
+    grid-template-columns: auto auto auto 1fr;
     grid-template-rows: 1fr;
     gap: 8px;
     border: 3px solid #fff;
@@ -40,4 +40,25 @@ iframe {
     height: inherit;
     border: none;
     aspect-ratio: 16 / 9;
+}
+
+.items {
+    margin-left: 32px;
+    display: flex !important;
+    gap: 12px;
+    flex-direction: row;
+    align-items: center;
+    row-gap: 32px;
+}
+
+.items > div {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.items > div > div > span {
+    display: inline-block;
+    line-height: 0;
+    vertical-align: ideographic;
 }

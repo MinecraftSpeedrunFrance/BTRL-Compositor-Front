@@ -3,6 +3,7 @@
 }
 
 main {
+    position: relative;
     width: 100%;
     max-width: 100%;
     max-height: 100vh;
@@ -11,4 +12,26 @@ main {
     grid-template-rows: repeat(var(--grid-rows, 1), minmax(0, 1fr));
     gap: 16px;
     place-items: center;
+}
+
+.pov-preload-layer {
+    position: fixed;
+    top: 0;
+    left: -10000px;
+    width: 320px;
+    height: 180px;
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.pov-preload-layer .pov {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+}
+
+.pov iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
 }

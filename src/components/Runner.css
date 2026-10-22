@@ -32,6 +32,11 @@
     gap: 8px;
 }
 
+.runner img {
+    width: 32px;
+    height: 32px;
+}
+
 .offline {
     background-color: var(--offline-bg);
 }

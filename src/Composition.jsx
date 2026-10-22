@@ -147,7 +147,7 @@ export default function Composition() {
     useEffect(() => {
         mounted.current = true
 
-        fetch('http://localhost:3000/composition')
+        fetch(`${import.meta.env.VITE_API_URL}/composition`)
             .then(res => {
                 if (!res.ok) {
                     throw new Error(`Failed to load composition (${res.status})`)
@@ -158,7 +158,7 @@ export default function Composition() {
             .then(setComposition)
             .catch(setCompositionErr)
 
-        const socket = io('http://localhost:3000')
+        const socket = io(`${import.meta.env.VITE_API_URL}`)
 
         socket.on('compositionChanged', handleChanges)
 

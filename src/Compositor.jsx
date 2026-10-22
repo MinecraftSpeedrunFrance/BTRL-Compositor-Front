@@ -11,12 +11,12 @@ function Compositor() {
     const [eventsData, setEventsData] = useState([])
     const [eventsError, setEventsError] = useState(null)
     const [composition, setComposition] = useState([])
-    const { data: runnersData, error: runnersError } = useSWR(`http://localhost:3000/runners?event=${event}`, fetcher, { refreshInterval: 5000})
+    const { data: runnersData, error: runnersError } = useSWR(`${import.meta.env.VITE_API_URL}/runners?event=${event}`, fetcher, { refreshInterval: 5000})
 
     useEffect(_ => {
         let isActive = true
 
-        fetch('http://localhost:3000/events')
+        fetch(`${import.meta.env.VITE_API_URL}/events`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`Failed to load data.json (${response.status})`)
@@ -102,7 +102,7 @@ function Compositor() {
     </>
 
     function postComposition() {
-        fetch('http://localhost:3000/composition', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(composition) })
+        fetch(`${import.meta.env.VITE_API_URL}/composition`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(composition) })
     }
 }
 

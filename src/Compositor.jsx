@@ -55,10 +55,10 @@ function Compositor() {
                     <label htmlFor="runCount">Max POV Count: </label>
                     <input type="number" name="runCount" value={maxPovCount} onChange={e => setMaxPovCount(+e.target.value)} min="1" max="100" />
                 </span>
-                <a href={`${import.meta.env.VITE_API_URL}/composition`} target="_blank" rel="noopener noreferrer">
-                    View Composition
-                </a>
             </div>
+            <a href={`${import.meta.env.VITE_API_URL}/composition`} target="_blank" rel="noopener noreferrer">
+                View Composition
+            </a>
             {eventsError && <span className="error">Error loading events: {eventsError}</span>}
         </header>
         <main>

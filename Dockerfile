@@ -4,6 +4,6 @@ COPY package.json .
 RUN npm install
 RUN npm i -g serve
 RUN npm run build
-COPY dist dist
+COPY ./dist ./dist
 EXPOSE 3000
 CMD [ "serve", "-s", "dist" ]

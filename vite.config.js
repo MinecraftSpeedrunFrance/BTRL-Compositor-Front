@@ -13,4 +13,7 @@ export default defineConfig({
         main: resolve(import.meta.dirname, 'index.html'),
         composition: resolve(import.meta.dirname, 'composition/index.html'),
     },
+    preview: {
+        allowedHosts: ['msf.mcsr-game.com']
+    }
 })

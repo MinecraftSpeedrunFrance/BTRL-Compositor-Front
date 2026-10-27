@@ -6,4 +6,4 @@ RUN npm i -g serve
 COPY --chown=node:node . .
 RUN npm run build
 EXPOSE 3000
-CMD [ "serve", "-s", "dist" ]
+CMD [ "npm", "run", "preview" ]

@@ -71,7 +71,8 @@ function Compositor() {
                 {runnersData && <div
                     className="runs-list"
                     style={{
-                        '--grid-columns': getGridColumns(runnersData.length)
+                        '--grid-columns': getGridColumns(runnersData.length),
+                        '--grid-rows': getGridColumns(runnersData.length)
                     }}
                 >
                     {runnersData.sort(sortPovs).map((runner) => (

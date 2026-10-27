@@ -30,6 +30,7 @@ header {
 .runs-list {
     display: grid;
     grid-template-columns: repeat(var(--grid-columns, 1), minmax(0, 1fr));
+    grid-template-rows: repeat(var(--grid-rows, 1), minmax(0, 1fr));
     gap: 16px;
     align-items: center;
     padding: 0 16px;

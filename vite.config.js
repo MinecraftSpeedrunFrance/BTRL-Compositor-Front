@@ -11,6 +11,6 @@ export default defineConfig({
     ],
     input: {
         main: resolve(import.meta.dirname, 'index.html'),
-        composition: resolve(import.meta.dirname, 'composition.html'),
+        composition: resolve(import.meta.dirname, 'composition/index.html'),
     },
 })

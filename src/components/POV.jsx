@@ -10,20 +10,21 @@ export default function POV({ pov, onReady, className = '' }) {
                     alt=""
                 />
                 <div>
-                    <span>{pov.nickname}</span>
+                    {pov.nickname}
                 </div>
                 <div className="items">
                     {pov.items?.['minecraft:ender_pearl'] && <div>
-                        <div><span>{pov.items['minecraft:ender_pearl']}   </span></div>
+                        <span>{pov.items['minecraft:ender_pearl']}   </span>
                         <img src="/assets/pearl.webp" alt="Pearls" width="16" height="16" />
                     </div>}
                     {pov.items?.['minecraft:blaze_rod'] && <div>
-                        <div><span>{pov.items['minecraft:blaze_rod']}   </span></div>
+                        <span>{pov.items['minecraft:blaze_rod']}   </span>
                         <img src="/assets/rod.webp" alt="Rods" width="16" height="16" />
                     </div>}
                 </div>
                 <div className="pb">
-                    <span>7:56 PB</span>
+                    <span>PB: 7:56</span>
+                    <span>BTRL: 7:56</span>
                 </div>
             </div>
 

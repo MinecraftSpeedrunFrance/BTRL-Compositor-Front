@@ -3,25 +3,16 @@
     grid-template-columns: auto auto auto 1fr;
     grid-template-rows: 1fr;
     gap: 8px;
-    border: 3px solid #fff;
     padding: 4px;
     align-items: center;
     color: #fff;
-    font-family: 'Minecraftia';
+    background-color: rgb(29, 42, 99);
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
 }
 
 .pov-header img {
     display: block;
-}
-
-.pov-header > div > span {
-    display: inline-block;
-    line-height: 0;
-    vertical-align: ideographic;
-}
-
-.pov-header div {
-    display: inline-block;
 }
 
 .pov-header > :last-child {
@@ -57,8 +48,11 @@ iframe {
     gap: 4px;
 }
 
-.items > div > div > span {
-    display: inline-block;
-    line-height: 0;
-    vertical-align: ideographic;
+.pb {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 4px;
+    /* font-size: 14px; */
 }

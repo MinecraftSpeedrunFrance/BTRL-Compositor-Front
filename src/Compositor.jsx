@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import useSWR from 'swr'
 import Runner from "./components/Runner"
 import './Compositor.css'
-import { getGridColumns } from "./utils"
+import { getGridColumns, getGridRows } from "./utils"
 
 const fetcher = (...args) => fetch(...args).then(res => res.json())
 function Compositor() {
@@ -56,7 +56,7 @@ function Compositor() {
                     <input type="number" name="runCount" value={maxPovCount} onChange={e => setMaxPovCount(+e.target.value)} min="1" max="100" />
                 </span>
             </div>
-            <div><a href={`composition`} target="_blank" rel="noopener noreferrer">
+            <div><a href={`composition/`} target="_blank" rel="noopener noreferrer">
                 View Composition
             </a></div>
             {eventsError && <span className="error">Error loading events: {eventsError}</span>}
@@ -72,7 +72,7 @@ function Compositor() {
                     className="runs-list"
                     style={{
                         '--grid-columns': getGridColumns(runnersData.length),
-                        '--grid-rows': getGridColumns(runnersData.length)
+                        '--grid-rows': getGridRows(runnersData.length)
                     }}
                 >
                     {runnersData.sort(sortPovs).map((runner) => (
@@ -89,19 +89,6 @@ function Compositor() {
                     <button onClick={postComposition}>Push Composition</button>
                 </div>
             </div>
-            {/* <div className="section">
-                <h1>Current Composition</h1>
-                {runnersData && <div
-                    className="runs-list"
-                    style={{
-                        '--grid-columns': getGridColumns(runnersData.length)
-                    }}
-                >
-                    {runnersData.map((runner) => (
-                        <Runner key={runner.uuid} runner={runner} onClick={() => {}} selected={true} />
-                    ))}
-                </div>}
-            </div> */}
         </main>
     </>
 

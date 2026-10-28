@@ -158,7 +158,7 @@ export default function Composition() {
             .then(setComposition)
             .catch(setCompositionErr)
 
-        const socket = io(`${import.meta.env.VITE_API_URL}`)
+        const socket = io(`${import.meta.env.VITE_SOCKET_URL}`)
 
         socket.on('compositionChanged', handleChanges)
 

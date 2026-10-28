@@ -29,7 +29,7 @@ export default function POV({ pov, onReady, className = '' }) {
             </div>
 
             <iframe
-                src={`https://player.twitch.tv/?autoplay=true&channel=${pov.twitch}&parent=${import.meta.env.VITE_FRONTEND_URL}&player=popout&controls=false&muted=true`}
+                src={`https://player.twitch.tv/?autoplay=true&channel=${pov.twitch}&parent=${import.meta.env.VITE_DOMAIN}&player=popout&controls=false&muted=true`}
                 title={`${pov.nickname} Twitch stream`}
                 frameBorder="0"
                 scrolling="no"

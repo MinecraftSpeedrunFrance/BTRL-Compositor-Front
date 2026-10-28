@@ -7,7 +7,7 @@ import { getGridColumns, getGridRows } from "./utils"
 const fetcher = (...args) => fetch(...args).then(res => res.json())
 function Compositor() {
     const [event, setEvent] = useState('none')
-    const [maxPovCount, setMaxPovCount] = useState(6)
+    const [maxPovCount, setMaxPovCount] = useState(12)
     const [eventsData, setEventsData] = useState([])
     const [eventsError, setEventsError] = useState(null)
     const [composition, setComposition] = useState([])

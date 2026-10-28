@@ -39,3 +39,33 @@ export default function POV({ pov, onReady, className = '' }) {
         </div>
     )
 }
+
+export function POVWrapper({ state, onReady, className = '' }) {
+    const { phase, type } = state
+
+    const entries = []
+
+    if (phase === 'preload') {
+        if (type === 'replace') {
+            entries.push(
+                <POV pov={state.old} key={state.old.uuid} onReady={_ => {}} className={className} />,
+                <POV pov={state.new} key={state.new.uuid} onReady={onReady} className={className} />
+            )
+        } else {
+            entries.push(
+                <div className="placeholder" key="placeholder">
+                    <span>Preloading pov...</span>
+                </div>,
+                <POV pov={state.pov} key={state.pov.uuid} onReady={onReady} className={className} />
+            )
+        }
+    } else {
+        entries.push(
+            <POV pov={state.pov} key={state.pov.uuid} onReady={_ => {}} className={className} />
+        )
+    }
+
+    return <div className="pov-wrapper">
+        {entries}
+    </div>
+}

@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react"
-import POV from "./components/POV"
+import { POVWrapper } from "./components/POV"
 import './Composition.css'
 import { getGridColumns, getGridRows } from "./utils"
 
-const STREAM_SETTLE_TIME = 1000
+const STREAM_SETTLE_TIME = 3500
 
 function wait(milliseconds) {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -11,60 +11,11 @@ function wait(milliseconds) {
 
 export default function Composition() {
     const [composition, setComposition] = useState([])
-    const [preloading, setPreloading] = useState([])
     const [compositionErr, setCompositionErr] = useState(null)
-    const transitionGeneration = useRef(0)
-    const completedPreloads = useRef(new Set())
     const mounted = useRef(true)
 
-    function preloadReplacement(change, generation) {
-        const preloadId = `${change.new.uuid}-${Date.now()}`
-
-        setPreloading(current => [
-            ...current,
-            {
-                id: preloadId,
-                pov: change.new,
-                mode: 'replace',
-                oldUuid: change.old.uuid,
-                ready: false,
-                generation
-            }
-        ])
-    }
-
-    function preloadAddition(pov, generation) {
-        const preloadId = `${pov.uuid}-${Date.now()}`
-
-        setPreloading(current => [
-            ...current,
-            {
-                id: preloadId,
-                pov,
-                mode: 'add',
-                ready: false,
-                generation
-            }
-        ])
-    }
-
     function handlePreloadReady(preload) {
-        if (
-            preload.ready ||
-            completedPreloads.current.has(preload.id) ||
-            preload.generation !== transitionGeneration.current
-        ) {
-            return
-        }
-
-        completedPreloads.current.add(preload.id)
-        setPreloading(current =>
-            current.map(item =>
-                item.id === preload.id
-                    ? { ...item, ready: true }
-                    : item
-            )
-        )
+        if (preload.ready ) return
 
         finishPreload({
             ...preload,
@@ -74,72 +25,55 @@ export default function Composition() {
 
     async function finishPreload(preload) {
         await wait(STREAM_SETTLE_TIME)
-
-        if (
-            !mounted.current ||
-            preload.generation !== transitionGeneration.current
-        ) {
+        if (!mounted.current) {
             return
         }
 
-        setComposition(current => {
-            if (preload.mode === 'replace') {
-                // Do not let an outdated replacement reintroduce a POV that a
-                // newer update has already removed.
-                if (!current.some(pov => pov.uuid === preload.oldUuid)) {
-                    return current
+        if (preload.type === 'replace') {
+            setComposition(current => {
+                for (let i = 0; i < current.length; i++) {
+                    if (current[i].phase !== 'preload' || current[i].type !== 'replace') continue
+                    if (current[i].new.uuid === preload.new.uuid && current[i].old.uuid === preload.old.uuid) {
+                        current[i] = { pov: current[i].new, phase: 'ready', id: current[i].id }
+                        break
+                    }
                 }
-
-                return current.map(pov =>
-                    pov.uuid === preload.oldUuid
-                        ? preload.pov
-                        : pov
-                )
-            }
-
-            if (current.some(pov => pov.uuid === preload.pov.uuid)) {
-                return current
-            }
-
-            return [...current, preload.pov]
-        })
-
-        setPreloading(current =>
-            current.filter(item => item.id !== preload.id)
-        )
-        completedPreloads.current.delete(preload.id)
+                return [...current]
+            })
+        } else {
+            setComposition(current => {
+                for (let i = 0; i < current.length; i++) {
+                    if (current[i].phase === 'preload' && current[i].type === 'add' && current[i].pov.uuid === preload.pov.uuid) {
+                        current[i] = { ...current[i], phase: 'ready' }
+                        break
+                    }
+                }
+                return [...current]
+            })
+        }
     }
 
-    function removePov(uuid, generation) {
+    function removePov(uuid) {
         setComposition(current =>
-            current.filter(pov => pov.uuid !== uuid)
-        )
-
-        setPreloading(current =>
-            current.filter(item =>
-                item.generation === generation &&
-                item.pov.uuid !== uuid &&
-                item.oldUuid !== uuid
-            )
+            current.filter(state => state.phase !== 'ready' || state.pov.uuid !== uuid)
         )
     }
 
     const handleChanges = useCallback((changes) => {
-        const generation = ++transitionGeneration.current
-        completedPreloads.current.clear()
-
-        // A newer server update supersedes transitions that have not committed.
-        setPreloading(current =>
-            current.filter(item => item.generation === generation)
-        )
+        // todo: shortcut preloads if a new modification comes in before the previous one has finished preloading
 
         for (const change of changes) {
+            change.phase = 'preload'
             if (change.type === 'replace') {
-                preloadReplacement(change, generation)
+                setComposition(current => {
+                    change.id = current.find(state => state.phase === 'ready' && state.pov.uuid === change.old.uuid).id
+                    return [...current.filter(state => state.phase !== 'ready' || state.pov.uuid !== change.old.uuid), change]
+                })
             } else if (change.type === 'add') {
-                preloadAddition(change.pov, generation)
+                change.id = `${change.pov.uuid}-${Date.now()}`
+                setComposition(current => [...current, change])
             } else if (change.type === 'remove') {
-                removePov(change.pov.uuid, generation)
+                removePov(change.pov.uuid)
             }
         }
     }, [])
@@ -155,7 +89,13 @@ export default function Composition() {
 
                 return res.json()
             })
-            .then(setComposition)
+            .then(comp => {
+                setComposition(comp.map(item => ({
+                    phase: 'ready',
+                    pov: item,
+                    id: `${item.uuid}-${Date.now()}`,
+                })))
+            })
             .catch(setCompositionErr)
 
         const socket = io(`${import.meta.env.VITE_SOCKET_URL}`)
@@ -178,20 +118,10 @@ export default function Composition() {
                 '--grid-rows': getGridRows(composition.length),
                 '--grid-columns': getGridColumns(composition.length)
             }}
-        >
-            {composition.map(pov => (
-                <POV pov={pov} key={pov.uuid} />
-            ))}
+        >{composition.sort((a, b) => a.id.localeCompare(b.id)).map(item => {
+            const isPreloading = item.phase === 'preload'
+            return <POVWrapper state={item} key={item.id} onReady={isPreloading ? _ => handlePreloadReady(item) : _ => {}}/>
+        })}
         </main>
-
-        <div className="pov-preload-layer">
-            {preloading.map(item => (
-                <POV
-                    key={item.id}
-                    pov={item.pov}
-                    onReady={() => handlePreloadReady(item)}
-                />
-            ))}
-        </div>
     </>
 }

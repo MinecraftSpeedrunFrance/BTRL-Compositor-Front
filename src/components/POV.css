@@ -24,7 +24,7 @@
     flex-direction: column;
     aspect-ratio: 16 / 10;
     width: min(100%, calc((100vh - 16px) / var(--grid-rows, 1) * (16 / 10)));
-    overflow-y: auto;
+    overflow-y: hidden;
 }
 
 .pov, .placeholder {

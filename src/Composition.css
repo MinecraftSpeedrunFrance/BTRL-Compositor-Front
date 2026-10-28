@@ -16,12 +16,12 @@ main {
 }
 
 .pov-preload-layer {
-    /* position: fixed; */
+    position: fixed;
     top: 0;
     left: -10000px;
     width: 320px;
     height: 180px;
-    /* opacity: 0; */
+    opacity: 0;
     pointer-events: none;
     overflow: hidden;
 }

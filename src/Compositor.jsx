@@ -79,8 +79,12 @@ function Compositor() {
                         <Runner key={runner.uuid} runner={runner} onClick={() => {
                             if (composition.some(r => r.uuid === runner.uuid)) {
                                 setComposition(composition.filter(r => r.uuid !== runner.uuid))
-                            } else if (/*runner.live &&*/maxPovCount > composition.length) {
-                                setComposition([...composition, {uuid: runner.uuid, twitch: runner.twitch, nickname: runner.nickname, items: runner.items}])
+                            } else if (maxPovCount > composition.length) {
+                                setComposition([...composition, {
+                                    uuid: runner.uuid, twitch: runner.twitch, 
+                                    nickname: runner.nickname, items: runner.items,
+                                    pb: runner.pb, btrl: runner.btrl
+                                }])
                             }
                         }} selected={composition.some(r => r.uuid === runner.uuid)} />
                     ))}

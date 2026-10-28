@@ -23,8 +23,8 @@ export default function POV({ pov, onReady, className = '' }) {
                     </div>}
                 </div>
                 <div className="pb">
-                    <span>PB: 7:56</span>
-                    <span>BTRL: 7:56</span>
+                    <span>PB: {pov.pb || 'N/A'}</span>
+                    <span>BTRL: {pov.btrl ? new Date(pov.btrl).toISOString().slice(14, 19): 'N/A'}</span>
                 </div>
             </div>
 

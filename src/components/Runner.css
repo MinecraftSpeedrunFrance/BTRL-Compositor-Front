@@ -27,7 +27,8 @@
 }
 
 .runner {
-    display: flex;
+    display: grid;
+    grid-template-columns: 32px min-content auto;
     align-items: center;
     gap: 8px;
 }
@@ -44,4 +45,12 @@
 .selected {
     background-color: var(--accent);
     color: white;
+}
+
+.pb {
+    justify-self: end;
+}
+
+.pb input {
+    width: 70px;
 }

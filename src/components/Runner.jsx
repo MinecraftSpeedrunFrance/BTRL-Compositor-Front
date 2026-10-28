@@ -12,9 +12,13 @@ export default function Runner(props) {
     const [editing, setEditing] = useState(false)
 
     useEffect(() => {
-        props.runner.pb = pb
-        console.log(runner.pb);
-        
+        let storedPb = localStorage.getItem(`pb_${runner.uuid}`)
+        if (storedPb) setPb(storedPb)
+    }, [])
+
+    useEffect(() => {
+        if (pb === runner.pb || pb === 'N/A') return
+        localStorage.setItem(`pb_${runner.uuid}`, pb)
     }, [pb])
 
     return <div className={`run ${live ? 'live' : 'offline'}${selected ? ' selected' : ''}`} onClick={onClick}>

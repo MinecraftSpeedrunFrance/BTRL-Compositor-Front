@@ -80,10 +80,12 @@ function Compositor() {
                             if (composition.some(r => r.uuid === runner.uuid)) {
                                 setComposition(composition.filter(r => r.uuid !== runner.uuid))
                             } else if (maxPovCount > composition.length) {
+                                let storedPb = localStorage.getItem(`pb_${runner.uuid}`)
+
                                 setComposition([...composition, {
                                     uuid: runner.uuid, twitch: runner.twitch, 
                                     nickname: runner.nickname, items: runner.items,
-                                    pb: runner.pb, btrl: runner.btrl
+                                    pb: storedPb || runner.pb, btrl: runner.btrl
                                 }])
                             }
                         }} selected={composition.some(r => r.uuid === runner.uuid)} />

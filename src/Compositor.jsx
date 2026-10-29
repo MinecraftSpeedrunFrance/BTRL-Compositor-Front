@@ -38,7 +38,13 @@ function Compositor() {
     }, [])
 
     useEffect(() => {
-        if (event !== 'none') localStorage.setItem('event', event)
+        if (event !== 'none') {
+            if (event !== localStorage.getItem('event', event)) {
+                setComposition([])
+            }
+            
+            localStorage.setItem('event', event)
+        }
     }, [event])
 
     return <>
@@ -66,8 +72,10 @@ function Compositor() {
                 <div className="section-header">
                     <h1>Next Composition</h1>
                     <span>{composition.length}/{maxPovCount}</span>
+                    <button onClick={() => setComposition([])}>Clear</button>
+                    <button onClick={postComposition}>Push</button>
                 </div>
-                {runnersError && <span className="error">Error loading splits: {runnersError}</span>}
+                {runnersError && <span className="error">Error loading splits: {runnersError.message}</span>}
                 {runnersData && <div
                     className="runs-list"
                     style={{
@@ -91,9 +99,6 @@ function Compositor() {
                         }} selected={composition.some(r => r.uuid === runner.uuid)} />
                     ))}
                 </div>}
-                <div className="controls">
-                    <button onClick={postComposition}>Push Composition</button>
-                </div>
             </div>
         </main>
     </>

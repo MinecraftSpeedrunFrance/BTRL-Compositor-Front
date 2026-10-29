@@ -56,9 +56,3 @@ header {
 .section-header span {
     font-size: 20px;
 }
-
-.controls {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-}

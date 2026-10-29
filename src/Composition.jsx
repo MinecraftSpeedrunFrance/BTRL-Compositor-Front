@@ -101,6 +101,19 @@ export default function Composition() {
         const socket = io(`${import.meta.env.VITE_SOCKET_URL}`)
 
         socket.on('compositionChanged', handleChanges)
+        socket.on('statsChanged', changes => {
+            setComposition(current => {
+                for (const change of changes) {
+                    for (let i = 0; i < current.length; i++) {
+                        if (current[i].phase !== 'ready' || current[i].pov.uuid !== change.uuid) continue
+
+                        current[i] = { ...current[i], pov: { ...current[i].pov, ...change } }
+                        break
+                    }
+                }
+                return [...current]
+            })
+        })
 
         return () => {
             mounted.current = false

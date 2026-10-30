@@ -9,6 +9,26 @@
     background-color: rgb(29, 42, 99);
     font-family: 'Poppins', sans-serif;
     font-weight: bold;
+    container-type: size;
+    container-name: pov-header;
+}
+
+@container pov-header (70px > height > 60px) {
+    .pb {
+        font-size: 20px !important;
+    }
+    .pov-header > div {
+        font-size: 23px;
+    }
+}
+
+@container pov-header (height > 70px) {
+    .pb {
+        font-size: 23px !important;
+    }
+    .pov-header > div {
+        font-size: 26px;
+    }
 }
 
 .pov-header img {

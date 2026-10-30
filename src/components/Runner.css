@@ -54,3 +54,8 @@
 .pb input {
     width: 70px;
 }
+
+.split {
+    display: flex;
+    gap: 8px;
+}

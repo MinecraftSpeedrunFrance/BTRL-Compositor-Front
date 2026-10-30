@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './Runner.css'
 import { useEffect } from 'react'
+import { formatDuration } from '../utils'
 
 export default function Runner(props) {
     const { runner, onClick, selected } = props
@@ -43,7 +44,10 @@ export default function Runner(props) {
             <div className="twitch">
             </div>
         </div>
-        <span className="split">{SPLIT_NAMES[split] || split}</span>
+        <div className="split">
+            <span>{SPLIT_NAMES[split] || split}</span>
+            {runner?.split?.igt &&<span>{formatDuration(runner?.split?.igt)}</span>}
+        </div>
     </div>
 }
 

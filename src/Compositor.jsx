@@ -11,7 +11,7 @@ function Compositor() {
     const [eventsData, setEventsData] = useState([])
     const [eventsError, setEventsError] = useState(null)
     const [composition, setComposition] = useState([])
-    const { data: runnersData, error: runnersError } = useSWR(`${import.meta.env.VITE_API_URL}/runners?event=${event}`, fetcher, { refreshInterval: 5000})
+    const { data: runnersData, error: runnersError } = useSWR(`${import.meta.env.VITE_API_URL}/runners?event=${event}`, fetcher, { refreshInterval: 5000, refreshWhenHidden: true })
 
     useEffect(_ => {
         let isActive = true

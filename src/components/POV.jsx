@@ -16,15 +16,15 @@ export default function POV({ pov, onReady, className = '' }) {
                 <div className="items">
                     {pov.items?.['minecraft:ender_pearl'] && <div>
                         <span>{pov.items['minecraft:ender_pearl']}   </span>
-                        <img src="/assets/pearl.webp" alt="Pearls" width="20" height="20" />
+                        <img src="../assets/pearl.webp" alt="Pearls" width="20" height="20" />
                     </div>}
                     {pov.items?.['minecraft:blaze_rod'] && <div>
                         <span>{pov.items['minecraft:blaze_rod']}   </span>
-                        <img src="/assets/rod.webp" alt="Rods" width="20" height="20" />
+                        <img src="../assets/rod.webp" alt="Rods" width="20" height="20" />
                     </div>}
                     {pov.items?.['minecraft:obsidian'] && <div>
                         <span>{pov.items['minecraft:obsidian']}   </span>
-                        <img src="/assets/obsidian.webp" alt="Obsi" width="20" height="20" />
+                        <img src="../assets/obsidian.webp" alt="Obsi" width="20" height="20" />
                     </div>}
                 </div>
                 <div className="pb">

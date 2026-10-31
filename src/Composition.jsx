@@ -108,8 +108,7 @@ export default function Composition() {
                         if (current[i].phase !== 'ready' || current[i].pov.uuid !== change.uuid) continue
 
                         current[i] = { ...current[i], pov: { ...current[i].pov, ...change } }
-                        if (!current[i].pov.items) {
-                            // empty object properties are trimmed by the websocket
+                        if (change.items === 'clear') {
                             current[i].pov.items = {}
                         }
                         break

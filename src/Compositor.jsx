@@ -112,8 +112,8 @@ function sortPovs(a, b) {
     if (a.live && !b.live) return -1
     if (!a.live && b.live) return 1
     if (a.live && b.live) {
-        if (a.split?.eventId && !b.split?.eventId) return -1
-        if (!a.split?.eventId && b.split?.eventId) return 1
+        if (a.split?.eventId && (!b.split?.eventId || b.split.eventId === 'rsg.credits')) return -1
+        if ((!a.split?.eventId || a.split.eventId === 'rsg.credits') && b.split?.eventId) return 1
         if (a.split?.eventId && b.split?.eventId) {
             if (a.nickname.toLowerCase() < b.nickname.toLowerCase()) return -1
             if (a.nickname.toLowerCase() > b.nickname.toLowerCase()) return 1
